@@ -1,5 +1,6 @@
 package com.JANA60.eventi.controller.main;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,14 +43,38 @@ public abstract class EventProgramm {
 	      System.out.println(current);
 	    }
 		
+	     
 		events.sort(new compareEventsByTitle());
 	    
+		System.out.println("Questa è la lista ordinata per data");
 		Iterator<Event> iterSorted = events.iterator();
-	    while (iter.hasNext()) {
+	    while (iterSorted.hasNext()) {
 	      Event current = iterSorted.next();
 	      System.out.println(current);
 	    }
 		
+		for(int i=0;i<events.size();i++)
+		{
+			if (LocalDate.now().getMonthValue()-events.get(i).getFormattedDate().getMonthValue()<1)
+				nearEvents.add(events.get(i));
+			else
+				farEvents.add(events.get(i));
+		}
+		
+		System.out.println("Questa è la lista di eventi più lontani di 1 mese");
+		Iterator<Event> iterFar = farEvents.iterator();
+	    while (iterFar.hasNext()) {
+	      Event current = iterFar.next();
+	      System.out.println(current);
+	    }
+	    
+	    
+	    System.out.println("Questa è la lista di eventi più lontani di 1 mese");
+		Iterator<Event> iterNear = nearEvents.iterator();
+	    while (iterNear.hasNext()) {
+	      Event current = iterNear.next();
+	      System.out.println(current);
+	    }
 		
 	}
 

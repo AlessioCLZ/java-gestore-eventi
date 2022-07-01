@@ -134,7 +134,7 @@ public class Event {
 		
 		getFormattedDate();
 		
-		if(dateFromString.isBefore(LocalDate.now()))
+		if(getFormattedDate().isBefore(LocalDate.now()))
 			throw new Exception ("Un evento non può essere organizzato nel passato.");
 			
 	}
