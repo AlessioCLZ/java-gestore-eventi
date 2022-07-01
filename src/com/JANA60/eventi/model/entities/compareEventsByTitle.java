@@ -7,7 +7,7 @@ public class compareEventsByTitle implements Comparator<Event>{
 	
 	@Override
 	public int compare(Event o1, Event o2) {
-		int res=o1.getFormattedDate().compareTo(o2.getFormattedDate());
+		int res=o1.getDate().compareTo(o2.getDate());
 		
 		if (res==0)
 		{

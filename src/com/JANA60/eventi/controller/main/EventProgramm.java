@@ -1,9 +1,13 @@
 package com.JANA60.eventi.controller.main;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 
 import com.JANA60.eventi.model.entities.Convention;
 import com.JANA60.eventi.model.entities.Event;
@@ -55,7 +59,9 @@ public abstract class EventProgramm {
 		
 		for(int i=0;i<events.size();i++)
 		{
-			if (LocalDate.now().getMonthValue()-events.get(i).getFormattedDate().getMonthValue()<1)
+			long period = LocalDate.now().until(events.get(i).getParsedDate(), ChronoUnit.DAYS);
+			
+			if (period < 31)
 				nearEvents.add(events.get(i));
 			else
 				farEvents.add(events.get(i));

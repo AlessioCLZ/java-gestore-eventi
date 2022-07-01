@@ -35,7 +35,7 @@ public class Event {
 	
 	//properties
 	
-	private String title, date;
+	private String title;
 	private int maxSeats, reservedSeats;
 	LocalDate dateFromString;
 	
@@ -47,6 +47,17 @@ public class Event {
 		boolean validParameters=true;
 		String eMessage= "I dati inseriti non sono validi."; //messaggio di errore instanziato nel costruttore
 
+		try
+		{
+			dateFromString = LocalDate.parse(date, dateFormatter);;
+
+		}
+		catch (Exception e)
+		{
+			validParameters=false;
+			eMessage+= "\n" + e.getMessage();
+		}
+		
 		try{		//tento di vedere se il titolo è valido
 			hasValidTitle(title);
 		}catch (NullPointerException npe){
@@ -62,7 +73,7 @@ public class Event {
 		}
 		
 		try {
-			hasValidDate(date);
+			hasValidDate(dateFromString);
 		}catch (Exception e){
 			validParameters=false;
 			eMessage+= "\n" + e.getMessage();
@@ -70,7 +81,7 @@ public class Event {
 		
 		if (validParameters) {
 		this.title = title;
-		this.date = date;
+		dateFromString = LocalDate.parse(date, dateFormatter);;
 		this.maxSeats = maxSeats; 
 		this.reservedSeats=0;
 		}
@@ -93,12 +104,18 @@ public class Event {
 	}
 
 	public String getDate() {
-		return date;
+		return dateFromString.format(dateFormatter);
+	}
+	
+	public LocalDate getParsedDate()
+	{
+		return dateFromString;
 	}
 
 	public void setDate(String date) throws Exception {
-		hasValidDate(date);
-		this.date = date;
+		LocalDate dateFromInput =LocalDate.parse(date, dateFormatter);
+		hasValidDate(dateFromInput);
+		dateFromString = dateFromInput;
 	}
 
 	public int getMaxSeats() {
@@ -109,11 +126,7 @@ public class Event {
 		return reservedSeats;
 	}
 	
-	public LocalDate getFormattedDate()
-	{
-		return dateFromString = LocalDate.parse(date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
-
-	}
+	
 	//validity methods
 	
 	private void hasValidTitle(String title) {
@@ -130,12 +143,11 @@ public class Event {
 		
 	}
 	
-	private void hasValidDate(String date) throws Exception {
-		
-		getFormattedDate();
-		
-		if(getFormattedDate().isBefore(LocalDate.now()))
+	private void hasValidDate(LocalDate date) throws Exception {
+				
+		if(date.isBefore(LocalDate.now())) {
 			throw new Exception ("Un evento non può essere organizzato nel passato.");
+		}
 			
 	}
 	
@@ -144,7 +156,7 @@ public class Event {
 	public void bookSeats(int numberOfSeats) throws Exception {
 		
 		try {
-			hasValidDate(this.date);
+			hasValidDate(this.dateFromString);
 		} catch (Exception e) {
 			throw new Exception ("Non è possibile prenotare posti ad un evento già avvenuto");
 		}
@@ -163,7 +175,7 @@ public class Event {
 	public void cancelSeats(int numberOfSeats) throws Exception{
 		
 		try {
-			hasValidDate(this.date);
+			hasValidDate(this.dateFromString);
 		} catch (Exception e) {
 			throw new Exception ("Non è possibile disdire posti ad un evento già avvenuto");
 		}
@@ -182,7 +194,7 @@ public class Event {
 
 	public String toString()
 	{
-		return "L'evento "+title+" organizzato in data "+date+" ha una capienza massima di " +maxSeats+ " posti e al momento " +reservedSeats+ " sono prenotati";
+		return "L'evento "+title+" organizzato in data "+dateFromString+" ha una capienza massima di " +maxSeats+ " posti e al momento " +reservedSeats+ " sono prenotati";
 	}
 
 }
