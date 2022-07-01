@@ -1,5 +1,8 @@
 package com.JANA60.eventi.model.entities;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Event {
 	/*
 	 * La consegna è di creare una classe Evento che abbia le seguenti proprietà:
@@ -25,5 +28,100 @@ public class Event {
 		contenente: data formattata - titolo
 		Aggiungere eventuali metodi (public e private) che vi aiutino a svolgere le funzioni richieste.
 	 */
+	
+	//class properties
+	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+	
+	//properties
+	
+	private String title, date;
+	private int maxSeats, reservedSeats;
+	LocalDate dateFromString;
+	
+	//contructors
+	
+	public Event(String title, String date, int maxSeats) {
+		super();
+		
+		boolean validParameters=true;
+		String eMessage= "I dati inseriti non sono validi."; //messaggio di errore instanziato nel costruttore
+		dateFromString = LocalDate.parse(date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
+
+		try{		//tento di vedere se il titolo è valido
+			hasValidTitle(title);
+		}catch (NullPointerException npe){
+			validParameters=false;
+			eMessage+= "\n" + npe.getMessage();
+		}
+		
+		try{
+			hasValidMaxSeats(maxSeats);
+		}catch (Exception e){
+			validParameters=false;
+			eMessage+= "\n" + e.getMessage();
+		}
+		
+		try {
+			
+		}catch (Exception e){
+			validParameters=false;
+			eMessage+= "\n" + e.getMessage();
+		}
+		
+		this.title = title;
+		this.date = date;
+		this.maxSeats = maxSeats; 
+		this.reservedSeats=0;
+	}
+
+
+
+	
+
+
+
+	//getters and setters
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public int getMaxSeats() {
+		return maxSeats;
+	}
+
+	public int getReservedSeats() {
+		return reservedSeats;
+	}
+	
+	
+	//validity methods
+	
+	private void hasValidTitle(String title) {
+		
+		if(title.isBlank() || title==null)
+			throw new NullPointerException("L'evento deve necessariamente avere un titolo");	
+		
+	}
+	
+	private void hasValidMaxSeats(int maxSeats) throws Exception{
+		
+		if(maxSeats<=0)
+			throw new Exception ("La sala per eventi non può avere un numero di sedute nullo o negativo");
+		
+	}
+	
 }
