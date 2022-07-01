@@ -139,11 +139,13 @@ public class Event {
 	
 	public void bookSeats(int numberOfSeats) throws Exception {
 		
-		dateFromString = LocalDate.parse(this.date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
+		try {
+			hasValidDate(this.date);
+		} catch (Exception e) {
+			throw new Exception ("Non è possibile prenotare posti ad un evento già avvenuto");
+		}
 		
-		if(dateFromString.isBefore(LocalDate.now()))
-			throw new Exception ("Un evento non può essere organizzato nel passato.");
-		else if((reservedSeats+numberOfSeats)>maxSeats)
+		if((reservedSeats+numberOfSeats)>maxSeats)
 		{
 			throw new Exception ("Non ci sono abbastanza posti disponibili.");
 		}
@@ -156,11 +158,14 @@ public class Event {
 	
 	public void cancelSeats(int numberOfSeats) throws Exception{
 		
-		dateFromString = LocalDate.parse(this.date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
+		try {
+			hasValidDate(this.date);
+		} catch (Exception e) {
+			throw new Exception ("Non è possibile disdire posti ad un evento già avvenuto");
+		}
 		
-		if(dateFromString.isBefore(LocalDate.now()))
-			throw new Exception ("Un evento non può essere organizzato nel passato.");
-		else if(reservedSeats<numberOfSeats)
+		
+		if(reservedSeats<numberOfSeats)
 		{
 			throw new Exception ("Non ci sono abbastanza posti prenotati.");
 		}
@@ -170,4 +175,10 @@ public class Event {
 			System.out.println("Il numero di posti inserito è stato disdetto.");
 		}
 	}
+
+	public String toString()
+	{
+		return "L'evento "+title+" organizzato in data "+date+" ha una capienza massima di " +maxSeats+ " posti e al momento " +reservedSeats+ " sono prenotati";
+	}
+
 }
