@@ -41,12 +41,11 @@ public class Event {
 	
 	//contructors
 	
-	public Event(String title, String date, int maxSeats) {
+	public Event(String title, String date, int maxSeats) throws Exception {
 		super();
 		
 		boolean validParameters=true;
 		String eMessage= "I dati inseriti non sono validi."; //messaggio di errore instanziato nel costruttore
-		dateFromString = LocalDate.parse(date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
 
 		try{		//tento di vedere se il titolo è valido
 			hasValidTitle(title);
@@ -63,22 +62,23 @@ public class Event {
 		}
 		
 		try {
-			
+			hasValidDate(date);
 		}catch (Exception e){
 			validParameters=false;
 			eMessage+= "\n" + e.getMessage();
 		}
 		
+		if (validParameters) {
 		this.title = title;
 		this.date = date;
 		this.maxSeats = maxSeats; 
 		this.reservedSeats=0;
+		}
+		else
+		{
+			throw new Exception(eMessage);
+		}
 	}
-
-
-
-	
-
 
 
 	//getters and setters
@@ -88,6 +88,7 @@ public class Event {
 	}
 
 	public void setTitle(String title) {
+		hasValidTitle(title);
 		this.title = title;
 	}
 
@@ -95,7 +96,8 @@ public class Event {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(String date) throws Exception {
+		hasValidDate(date);
 		this.date = date;
 	}
 
@@ -124,4 +126,19 @@ public class Event {
 		
 	}
 	
+	private void hasValidDate(String date) throws Exception {
+		
+		dateFromString = LocalDate.parse(date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
+		
+		if(dateFromString.isBefore(LocalDate.now()))
+			throw new Exception ("Un evento non può essere organizzato nel passato");
+			
+	}
+	
+	//class methods
+	
+	public void book() {
+		
+		
+	}
 }
