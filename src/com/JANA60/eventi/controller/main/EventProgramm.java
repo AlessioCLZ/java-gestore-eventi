@@ -1,13 +1,15 @@
 package com.JANA60.eventi.controller.main;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.JANA60.eventi.model.entities.Convention;
 import com.JANA60.eventi.model.entities.Event;
 import com.JANA60.eventi.model.entities.Speaker;
+import com.JANA60.eventi.model.entities.compareEventsByTitle;
 
-public class EventProgramm {
+public abstract class EventProgramm {
 
 	public static void main(String[] args) throws Exception {
 		/*
@@ -24,6 +26,9 @@ public class EventProgramm {
 		Event conferenza2= new Convention("Dialetti in italia ", "10/07/2022", 230, "Romanesco", speaker1);
 
 		List<Event> events= new ArrayList<Event>();
+		List<Event> nearEvents= new ArrayList<Event>();
+		List<Event> farEvents= new ArrayList<Event>();
+
 		
 		events.add(evento1);
 		events.add(evento2);
@@ -31,13 +36,23 @@ public class EventProgramm {
 		events.add(conferenza2);
 		
 		
-		System.out.println(events);
+		Iterator<Event> iter = events.iterator();
+	    while (iter.hasNext()) {
+	      Event current = iter.next();
+	      System.out.println(current);
+	    }
 		
-		
-		
-
+		events.sort(new compareEventsByTitle());
+	    
+		Iterator<Event> iterSorted = events.iterator();
+	    while (iter.hasNext()) {
+	      Event current = iterSorted.next();
+	      System.out.println(current);
+	    }
 		
 		
 	}
+
+	
 
 }

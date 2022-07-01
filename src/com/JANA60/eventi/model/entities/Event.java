@@ -109,7 +109,11 @@ public class Event {
 		return reservedSeats;
 	}
 	
-	
+	public LocalDate getFormattedDate()
+	{
+		return dateFromString = LocalDate.parse(date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
+
+	}
 	//validity methods
 	
 	private void hasValidTitle(String title) {
@@ -128,7 +132,7 @@ public class Event {
 	
 	private void hasValidDate(String date) throws Exception {
 		
-		dateFromString = LocalDate.parse(date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
+		getFormattedDate();
 		
 		if(dateFromString.isBefore(LocalDate.now()))
 			throw new Exception ("Un evento non può essere organizzato nel passato.");
