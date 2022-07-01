@@ -9,8 +9,11 @@ public class Speaker {
 	● titolo
 	 */
 
+	//attributes
 	private String name, surname, title;
 
+	//constructors
+	
 	public Speaker(String name, String surname, String title) throws Exception {
 		super();
 		
@@ -50,7 +53,9 @@ public class Speaker {
 	}
 
 
-
+	
+	//getters and setters
+	
 	public String getName() {
 		return name;
 	}
@@ -81,6 +86,8 @@ public class Speaker {
 		this.title = title;
 	}
 	
+	//validation methods
+	
 	private void hasValidTitle(String title) {
 		if(title.isBlank() || title==null)
 			throw new NullPointerException("L'oratore deve necessariamente avere un titolo");		
@@ -95,5 +102,6 @@ public class Speaker {
 		if(name.isBlank() || name==null)
 			throw new NullPointerException("L'oratore deve necessariamente avere un nome");		
 	}
+	
 	
 }
