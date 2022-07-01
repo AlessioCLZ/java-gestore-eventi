@@ -131,14 +131,43 @@ public class Event {
 		dateFromString = LocalDate.parse(date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
 		
 		if(dateFromString.isBefore(LocalDate.now()))
-			throw new Exception ("Un evento non può essere organizzato nel passato");
+			throw new Exception ("Un evento non può essere organizzato nel passato.");
 			
 	}
 	
 	//class methods
 	
-	public void book() {
+	public void bookSeats(int numberOfSeats) throws Exception {
 		
+		dateFromString = LocalDate.parse(this.date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
 		
+		if(dateFromString.isBefore(LocalDate.now()))
+			throw new Exception ("Un evento non può essere organizzato nel passato.");
+		else if((reservedSeats+numberOfSeats)>maxSeats)
+		{
+			throw new Exception ("Non ci sono abbastanza posti disponibili.");
+		}
+		else
+		{
+			reservedSeats+=numberOfSeats;
+			System.out.println("Il numero di posti richiesti è stato prenotato.");
+		}
+	}
+	
+	public void cancelSeats(int numberOfSeats) throws Exception{
+		
+		dateFromString = LocalDate.parse(this.date, dateFormatter); //utilizzo un parse, in tal modo l'utente da tastiera può inserire la data direttamente da stringa
+		
+		if(dateFromString.isBefore(LocalDate.now()))
+			throw new Exception ("Un evento non può essere organizzato nel passato.");
+		else if(reservedSeats<numberOfSeats)
+		{
+			throw new Exception ("Non ci sono abbastanza posti prenotati.");
+		}
+		else
+		{
+			reservedSeats-=numberOfSeats;
+			System.out.println("Il numero di posti inserito è stato disdetto.");
+		}
 	}
 }
